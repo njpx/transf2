@@ -1,0 +1,118 @@
+<p-card header="New Bank Account" styleClass="w-full md:w-30rem mx-auto mt-8">
+  <ng-template #header>
+    <app-back-button-for-card></app-back-button-for-card>
+  </ng-template>
+  <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+    <div class="flex flex-column gap-3">
+      <div class="flex flex-column">
+        <label for="keyword">Search</label>
+        <input
+          id="keyword"
+          type="keyword"
+          pInputText
+          formControlName="keyword"
+          placeholder="Search by ID, Name"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              searchForm.get('keyword')?.invalid &&
+              searchForm.get('keyword')?.touched
+          }"
+        />
+        <small
+          class="text-red-500"
+          *ngIf="
+            searchForm.get('keyword')?.invalid &&
+            searchForm.get('keyword')?.touched
+          "
+        >
+          Keyword is required
+        </small>
+      </div>
+
+      <div class="flex justify-content-between">
+        <p-button label="Search" type="submit" severity="info"> </p-button>
+      </div>
+      <p-message
+        *ngIf="errorMessage"
+        severity="error"
+        [text]="errorMessage"
+      ></p-message>
+      <p-message
+        *ngIf="successMessage"
+        severity="success"
+        [text]="successMessage"
+      ></p-message>
+    </div>
+  </form>
+  <br />
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="form">
+    <div class="flex flex-column gap-3">
+      <div class="flex flex-column">
+        <label for="selectedCustomer">Customer</label>
+        <p-select
+          [options]="customers"
+          formControlName="selectedCustomer"
+          optionLabel="thaiName"
+          placeholder="Select a bank account"
+          class="w-full md:w-56"
+        >
+          <ng-template #selectedItem let-selectedOption>
+            <div class="flex items-center gap-2" *ngIf="selectedOption">
+              <div>
+                {{ `${selectedOption.idCardNumber}` }}
+                -
+                <span class="font-bold">{{`${selectedOption.thaiName}`}}</span>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template let-customer #item>
+            <div class="flex items-center gap-2">
+              <div>
+                {{ `${customer.idCardNumber} ` }}
+                -
+                <span class="font-bold">{{`${customer.thaiName}`  }}</span>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template #dropdownicon>
+            <i class="pi pi-user"></i>
+          </ng-template>
+        </p-select>
+      </div>
+      <div class="flex flex-column">
+        <label for="depositAmount">Deposit Amount</label>
+        <input
+          id="depositAmount"
+          type="text"
+          pInputText
+          formControlName="depositAmount"
+          maxlength="15"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              form.get('depositAmount')?.invalid &&
+              form.get('depositAmount')?.touched
+          }"
+        />
+        <small
+          class="text-red-500"
+          *ngIf="
+            form.get('depositAmount')?.invalid &&
+            form.get('depositAmount')?.touched
+          "
+        >
+          Deposit Amount must greater than 0
+        </small>
+      </div>
+
+      <div class="flex justify-content-between">
+        <p-button
+          label="Create new account"
+          type="submit"
+          [disabled]="form.invalid"
+        >
+        </p-button>
+      </div>
+    </div>
+  </form>
+</p-card>

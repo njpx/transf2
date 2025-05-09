@@ -1,0 +1,77 @@
+<p-card header="Deposit" styleClass="w-full md:w-30rem mx-auto mt-8">
+  <ng-template #header>
+    <app-back-button-for-card></app-back-button-for-card>
+  </ng-template>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="form">
+    <div class="flex flex-column gap-3">
+      <div class="flex flex-column">
+        <label for="accountNumber">Account Number</label>
+        <input
+          id="accountNumber"
+          type="text"
+          pInputText
+          formControlName="accountNumber"
+          maxlength="7"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              form.get('accountNumber')?.invalid &&
+              form.get('accountNumber')?.touched
+          }"
+        />
+        <small
+          class="text-red-500"
+          *ngIf="
+            form.get('accountNumber')?.invalid &&
+            form.get('accountNumber')?.touched
+          "
+        >
+          Please enter a valid Account Number
+        </small>
+      </div>
+      <div class="flex flex-column">
+        <label for="depositAmount">Deposit Amount</label>
+        <input
+          id="depositAmount"
+          type="text"
+          pInputText
+          formControlName="depositAmount"
+          maxlength="15"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              form.get('depositAmount')?.invalid &&
+              form.get('depositAmount')?.touched
+          }"
+        />
+        <small
+          class="text-red-500"
+          *ngIf="
+            form.get('depositAmount')?.invalid &&
+            form.get('depositAmount')?.touched
+          "
+        >
+          Please enter a valid Deposit Amount
+        </small>
+      </div>
+
+      <div class="flex justify-content-between">
+        <p-button
+          label="Deposit"
+          type="submit"
+          [loading]="loading"
+          [disabled]="form.invalid"
+        >
+        </p-button>
+      </div>
+      <p-message
+        *ngIf="errorMessage"
+        severity="error"
+        [text]="errorMessage"
+      ></p-message>
+      <p-message
+        *ngIf="successMessage"
+        severity="success"
+        [text]="successMessage"
+      ></p-message>
+    </div>
+  </form>
+</p-card>

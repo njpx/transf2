@@ -1,0 +1,159 @@
+<p-card header="Register" styleClass="w-full md:w-30rem mx-auto mt-8">
+  <ng-template #header *ngIf="isAuthenticated">
+    <app-back-button-for-card></app-back-button-for-card>
+  </ng-template>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="flex flex-column gap-3">
+      <div class="flex flex-column">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          pInputText
+          formControlName="email"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              form.get('email')?.invalid && form.get('email')?.touched
+          }"
+        />
+        <small
+          class="text-red-500"
+          *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
+        >
+          Please enter a valid email
+        </small>
+      </div>
+
+      <div class="flex flex-column">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          pInputText
+          formControlName="password"
+          placeholder="Password must be at least 8 characters"
+          maxlength="50"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              form.get('password')?.invalid && form.get('password')?.touched
+          }"
+        />
+        <small
+          class="text-red-500"
+          *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
+        >
+          Please enter a valid Password
+        </small>
+      </div>
+
+      <div class="flex flex-column">
+        <label for="id">ID Card Number</label>
+        <input
+          id="id"
+          type="text"
+          pInputText
+          formControlName="id"
+          maxlength="13"
+          placeholder="13 digits"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              form.get('id')?.invalid && form.get('id')?.touched
+          }"
+        />
+        <small
+          class="text-red-500"
+          *ngIf="form.get('id')?.invalid && form.get('id')?.touched"
+        >
+          Please enter a valid 13-digit ID number
+        </small>
+      </div>
+
+      <div class="flex flex-column">
+        <label for="thaiName">Thai Name</label>
+        <input
+          id="thaiName"
+          type="text"
+          pInputText
+          formControlName="thaiName"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              form.get('thaiName')?.invalid && form.get('thaiName')?.touched
+          }"
+        />
+        <small
+          class="text-red-500"
+          *ngIf="form.get('thaiName')?.invalid && form.get('thaiName')?.touched"
+        >
+          Please enter a valid Thai name
+        </small>
+      </div>
+
+      <div class="flex flex-column">
+        <label for="englishName">English Name</label>
+        <input
+          id="englishName"
+          type="text"
+          pInputText
+          formControlName="englishName"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              form.get('englishName')?.invalid &&
+              form.get('englishName')?.touched
+          }"
+        />
+        <small
+          class="text-red-500"
+          *ngIf="
+            form.get('englishName')?.invalid && form.get('englishName')?.touched
+          "
+        >
+          Please enter a valid English name
+        </small>
+      </div>
+
+      <div class="flex flex-column">
+        <label for="pin">PIN</label>
+        <input
+          id="pin"
+          type="password"
+          pInputText
+          formControlName="pin"
+          maxlength="6"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              form.get('pin')?.invalid && form.get('pin')?.touched
+          }"
+        />
+        <small
+          class="text-red-500"
+          *ngIf="form.get('pin')?.invalid && form.get('pin')?.touched"
+        >
+          Please enter a valid 6-digit PIN
+        </small>
+      </div>
+
+      <p-message
+        *ngIf="errorMessage"
+        severity="error"
+        [text]="errorMessage"
+      ></p-message>
+
+      <div class="flex justify-content-between">
+        <p-button
+          label="Register"
+          type="submit"
+          [loading]="loading"
+          [disabled]="form.invalid"
+        >
+        </p-button>
+        <p-button
+          *ngIf="!isAuthenticated"
+          label="Login"
+          styleClass="p-button-secondary"
+          [routerLink]="['/login']"
+        >
+        </p-button>
+      </div>
+    </div>
+  </form>
+</p-card>

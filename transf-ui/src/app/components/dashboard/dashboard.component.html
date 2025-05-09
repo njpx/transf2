@@ -1,0 +1,91 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="flex align-items-center justify-content-center">
+      <span class="font-bold">{{`${englishName} - ${role}` }}</span>
+      <p-button
+        class="pl-4"
+        icon="pi pi-sign-out"
+        size="small"
+        severity="danger"
+        (onClick)="logout()"
+      />
+    </div>
+  </div>
+  <div class="col-6" *hasRole="Roles.TELLER">
+    <p-card
+      styleClass="menu-card cursor-pointer"
+      [style]="{ 'min-height': '160px' }"
+      [routerLink]="['/new-customer']"
+    >
+      <div
+        class="menu-item flex flex-column align-items-center justify-content-center text-center p-3 transition-colors transition-duration-200 hover:bg-primary-50"
+      >
+        <i class="pi pi-user-plus text-4xl mb-3 text-primary"></i>
+        <h3 class="text-xl font-bold m-0">Register</h3>
+        <p class="text-sm text-500 mt-2">Create your new account here</p>
+      </div>
+    </p-card>
+  </div>
+  <div class="col-6" *hasRole="Roles.TELLER">
+    <p-card
+      styleClass="menu-card cursor-pointer"
+      [style]="{ 'min-height': '160px' }"
+      [routerLink]="['/new-bank-account']"
+    >
+      <div
+        class="menu-item flex flex-column align-items-center justify-content-center text-center p-3 transition-colors transition-duration-200 hover:bg-primary-50"
+      >
+        <i class="pi pi-building-columns text-4xl mb-3 text-primary"></i>
+        <h3 class="text-xl font-bold m-0">Create a new bank account</h3>
+        <p class="text-sm text-500 mt-2">
+          Create new or set up an additional bank account
+        </p>
+      </div>
+    </p-card>
+  </div>
+  <div class="col-6" *hasRole="Roles.TELLER">
+    <p-card
+      styleClass="menu-card cursor-pointer"
+      [style]="{ 'min-height': '160px' }"
+      [routerLink]="['/deposit']"
+    >
+      <div
+        class="menu-item flex flex-column align-items-center justify-content-center text-center p-3 transition-colors transition-duration-200 hover:bg-primary-50"
+      >
+        <i class="pi pi-wallet text-4xl mb-3 text-primary"></i>
+        <h3 class="text-xl font-bold m-0">Deposit</h3>
+        <p class="text-sm text-500 mt-2">Add funds to your account</p>
+      </div>
+    </p-card>
+  </div>
+  <div class="col-6" *hasRole="Roles.CUSTOMER">
+    <p-card
+      styleClass="menu-card cursor-pointer"
+      [style]="{ 'min-height': '160px' }"
+      [routerLink]="['/transfer']"
+    >
+      <div
+        class="menu-item flex flex-column align-items-center justify-content-center text-center p-3 transition-colors transition-duration-200 hover:bg-primary-50"
+      >
+        <i class="pi pi-send text-4xl mb-3 text-primary"></i>
+        <h3 class="text-xl font-bold m-0">Transfer</h3>
+        <p class="text-sm text-500 mt-2">Send money to other accounts</p>
+      </div>
+    </p-card>
+  </div>
+  <div class="col-6" *hasRole="Roles.CUSTOMER">
+    <p-card
+      styleClass="menu-card cursor-pointer"
+      [style]="{ 'min-height': '160px' }"
+      [routerLink]="['/my-bank-account']"
+    >
+      <div
+        class="menu-item flex flex-column align-items-center justify-content-center text-center p-3 transition-colors transition-duration-200 hover:bg-primary-50"
+      >
+        <i class="pi pi-wallet text-4xl mb-3 text-primary"></i>
+        <h3 class="text-xl font-bold m-0">My Bank Accounts</h3>
+        <p class="text-sm text-500 mt-2">View bank accounts details and statements</p>
+      </div>
+    </p-card>
+  </div>
+</div>

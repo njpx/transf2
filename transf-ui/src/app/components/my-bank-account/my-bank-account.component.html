@@ -1,0 +1,141 @@
+<p-card header="My Bank Accounts" styleClass="w-full mx-auto mt-8">
+  <ng-template #header>
+    <app-back-button-for-card></app-back-button-for-card>
+  </ng-template>
+
+  <p-message
+    *ngIf="errorMessage"
+    severity="error"
+    [text]="errorMessage"
+  ></p-message>
+  <p-message
+    *ngIf="successMessage"
+    severity="success"
+    [text]="successMessage"
+  ></p-message>
+
+  <form
+    [formGroup]="form"
+    (ngSubmit)="onShowStatement()"
+    *ngIf="form"
+    class="pt-4"
+  >
+    <!-- Bank Account Group -->
+    <div formGroupName="bankAccountInfo">
+      <p-select
+        [options]="bankAccounts"
+        formControlName="selectedBankAccount"
+        optionLabel="accountName"
+        placeholder="Select a bank account"
+        class="w-full md:w-56"
+      >
+        <ng-template #selectedItem let-selectedOption>
+          <div class="flex items-center gap-2" *ngIf="selectedOption">
+            <div>
+              {{ `${selectedOption.accountNumber} ` }} -
+              <span class="bg-blue-500 text-white font-bold">
+                {{ `${selectedOption.balance}` | currency: 'THB' }}
+              </span>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template let-bankAccount #item>
+          <div class="flex items-center gap-2">
+            <div>
+              {{ `${bankAccount.accountNumber} ` }} -
+              <span class="bg-blue-500 text-white font-bold">
+                {{ `${bankAccount.balance}` | currency: 'THB' }}
+              </span>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #dropdownicon>
+          <i class="pi pi-wallet"></i>
+        </ng-template>
+      </p-select>
+    </div>
+
+    <!-- Date Range Group -->
+    <div formGroupName="dateRange" class="flex flex-column gap-3 pt-6">
+      <div class="flex flex-column justify-content-center align-items-center">
+        <label for="fromDate">From Date</label>
+        <p-datepicker
+          formControlName="fromDate"
+          dateFormat="dd/mm/yy"
+          [maxDate]="maxDate"
+        />
+        <small
+          class="text-red-500"
+          *ngIf="
+            form.get('dateRange.fromDate')?.invalid &&
+            form.get('dateRange.fromDate')?.touched
+          "
+        >
+          Please enter a valid From Date
+        </small>
+      </div>
+      <div class="flex flex-column justify-content-center align-items-center">
+        <label for="toDate">To Date</label>
+        <p-datepicker
+          formControlName="toDate"
+          dateFormat="dd/mm/yy"
+          [maxDate]="maxDate"
+        />
+        <small
+          class="text-red-500"
+          *ngIf="
+            form.get('dateRange.toDate')?.invalid &&
+            form.get('dateRange.toDate')?.touched
+          "
+        >
+          Please enter a valid To Date
+        </small>
+      </div>
+
+      <!-- Date Range Error -->
+      <div
+        *ngIf="form.get('dateRange')?.hasError('dateRangeInvalid')"
+        class="text-red-500 text-center"
+      >
+        From Date must be before or equal to To Date
+      </div>
+
+      <div class="flex justify-content-center">
+        <p-button
+          label="Show Statement"
+          type="submit"
+          [disabled]="form.invalid"
+        >
+        </p-button>
+      </div>
+    </div>
+  </form>
+  <br />
+  <p-table *ngIf="statements.length" [value]="statements" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template #header>
+      <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Code</th>
+        <th>Channel</th>
+        <th>Debit/Credit</th>
+        <th>Balance</th>
+        <th>Remark</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-statement>
+      <tr>
+        <td>{{ statement.timestamp | date : "shortDate" }}</td>
+        <td>{{ statement.timestamp | date : "HH:mm" }}</td>
+        <td>{{ statement.code }}</td>
+        <td>{{ statement.channel }}</td>
+        <td class="text-right">
+          {{ statement.code === "TRANSFER" ? "-" : "+"
+          }}{{ statement.amount | number : "1.2-2" }}
+        </td>
+        <td class="text-right">{{ statement.postBalance | number : "1.2-2" }}</td>
+        <td>{{ statement.remarks }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>

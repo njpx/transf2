@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  ui:
+    build:
+      context: ./transf-ui
+    ports:
+      - "80:80"
+    environment:
+      - API_URL=http://api:8080/api 
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=transf
+      - POSTGRES_USER=transf
+      - POSTGRES_PASSWORD=transf
+  api:
+    build:
+      context: ./transf-api
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_SERVER=db
+      - POSTGRES_DB=transf
+      - POSTGRES_USER=transf
+      - POSTGRES_PASSWORD=transf
+      - JWT_SECRET=aGVsbG9Xb3JsZA==
+      - JWT_EXPIRATION=20
+      - ALLOW_ORIGIN_URL=http://localhost
+    depends_on:
+      - db

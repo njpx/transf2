@@ -1,0 +1,195 @@
+<p-card header="Transfer" styleClass="w-full md:w-30rem mx-auto mt-8">
+  <ng-template #header>
+    <app-back-button-for-card></app-back-button-for-card>
+  </ng-template>
+
+  <p-message
+    *ngIf="errorMessage"
+    severity="error"
+    [text]="errorMessage"
+  ></p-message>
+  <p-message
+    *ngIf="successMessage"
+    severity="success"
+    [text]="successMessage"
+  ></p-message>
+
+  <form
+    [formGroup]="verificationForm"
+    (ngSubmit)="onVerify()"
+    *ngIf="verificationForm"
+    class="pt-4"
+  >
+    <p-select
+      [options]="bankAccounts"
+      formControlName="selectedBankAccount"
+      optionLabel="accountName"
+      placeholder="Select a bank account"
+      class="w-full md:w-56"
+    >
+      <ng-template #selectedItem let-selectedOption>
+        <div class="flex items-center gap-2" *ngIf="selectedOption">
+          <div>
+            {{ `${selectedOption.accountNumber} ` }}
+            -
+            <span
+              class="bg-blue-500 text-white font-bold"
+              >{{`${selectedOption.balance}` | currency : 'THB' }}</span
+            >
+          </div>
+        </div>
+      </ng-template>
+      <ng-template let-bankAccount #item>
+        <div class="flex items-center gap-2">
+          <div>
+            {{ `${bankAccount.accountNumber} ` }}
+            -
+            <span
+              class="bg-blue-500 text-white font-bold"
+              >{{`${bankAccount.balance}` | currency : 'THB' }}</span
+            >
+          </div>
+        </div>
+      </ng-template>
+      <ng-template #dropdownicon>
+        <i class="pi pi-wallet"></i>
+      </ng-template>
+    </p-select>
+
+    <div class="flex flex-column gap-3 pt-6">
+      <div class="flex flex-column">
+        <label for="toAccountNumber">Transfer to Account</label>
+        <input
+          id="toAccountNumber"
+          type="text"
+          pInputText
+          formControlName="toAccountNumber"
+          placeholder="Account Number"
+          maxlength="7"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              verificationForm.get('toAccountNumber')?.invalid &&
+              verificationForm.get('toAccountNumber')?.touched
+          }"
+        />
+        <small
+          class="text-red-500"
+          *ngIf="
+            verificationForm.get('toAccountNumber')?.invalid &&
+            verificationForm.get('toAccountNumber')?.touched
+          "
+        >
+          Please enter a valid Account Number
+        </small>
+      </div>
+      <div class="flex flex-column">
+        <label for="amount">Amount</label>
+        <input
+          id="amount"
+          type="text"
+          pInputText
+          formControlName="amount"
+          maxlength="15"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              verificationForm.get('amount')?.invalid &&
+              verificationForm.get('amount')?.touched
+          }"
+        />
+        <small
+          class="text-red-500"
+          *ngIf="
+            verificationForm.get('amount')?.invalid &&
+            verificationForm.get('amount')?.touched
+          "
+        >
+          Please enter a valid Amount
+        </small>
+      </div>
+      <div class="flex justify-content-end">
+        <p-button
+          label="Verify"
+          type="submit"
+          [disabled]="verificationForm.invalid"
+        >
+        </p-button>
+      </div>
+    </div>
+  </form>
+
+  <form
+    [formGroup]="confirmationForm"
+    (ngSubmit)="onSubmit()"
+    *ngIf="transactionInfo.valid"
+    class="pt-4"
+  >
+    <div class="flex flex-column gap-3 pt-6">
+      <div class="flex flex-column align-items-center">
+        <p-message
+          severity="info"
+          icon="pi pi-user"
+          [text]="
+            transactionInfo.fromAccountName +
+            ' - ' +
+            transactionInfo.fromAccountNumber
+          "
+          styleClass="h-full"
+        />
+        <i class="pi pi-angle-double-down text-lg pt-2"></i>
+        <p class="text-lg font-semibold mb-2">
+          Transfer {{`${transactionInfo.amount}` | currency: 'THB'}}
+        </p>
+        <i class="pi pi-angle-double-down text-lg pb-2"></i>
+        <p-message
+          severity="success"
+          icon="pi pi-user"
+          [text]="
+            transactionInfo.toAccountName +
+            ' - ' +
+            transactionInfo.toAccountNumber
+          "
+          styleClass="h-full"
+        />
+      </div>
+      <div class="flex flex-column">
+        <label for="pin">PIN</label>
+        <input
+          id="pin"
+          type="text"
+          pInputText
+          formControlName="pin"
+          maxlength="6"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              confirmationForm.get('pin')?.invalid &&
+              confirmationForm.get('pin')?.touched
+          }"
+        />
+        <small
+          class="text-red-500"
+          *ngIf="
+            confirmationForm.get('pin')?.invalid &&
+            confirmationForm.get('pin')?.touched
+          "
+        >
+          Please enter a valid PIN
+        </small>
+      </div>
+      <div>
+        <p-message
+          severity="error"
+          text="Caution! Ensure all recipient and payment details are correct. This cannot be undone."
+        ></p-message>
+      </div>
+      <div class="flex justify-content-end">
+        <p-button
+          severity="warn"
+          label="Confirm"
+          type="submit"
+          [disabled]="confirmationForm.invalid"
+        >
+        </p-button>
+      </div>
+    </div>
+  </form>
+</p-card>

@@ -1,0 +1,50 @@
+<p-card header="Login" styleClass="w-full md:w-30rem mx-auto mt-8">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="flex flex-column gap-3">
+      <div class="flex flex-column">
+        <label for="email">Email</label>
+        <input 
+          id="email"
+          type="email" 
+          pInputText 
+          formControlName="email"
+          [ngClass]="{'ng-invalid ng-dirty': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}"
+        />
+        <small class="text-red-500" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+          Email is required
+        </small>
+      </div>
+
+      <div class="flex flex-column">
+        <label for="password">Password</label>
+        <input 
+          id="password"
+          type="password" 
+          pInputText 
+          formControlName="password"
+          [ngClass]="{'ng-invalid ng-dirty': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}"
+        />
+        <small class="text-red-500" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          Password is required
+        </small>
+      </div>
+
+      <p-message *ngIf="message" severity="error" [text]="message"></p-message>
+
+      <div class="flex justify-content-between">
+        <p-button 
+          label="Login" 
+          type="submit"
+          [loading]="loading"
+          [disabled]="loginForm.invalid">
+        </p-button>
+        <p-button 
+          label="Register" 
+          styleClass="p-button-secondary"
+          icon="pi pi-user-plus"
+          [routerLink]="['/register']">
+        </p-button>
+      </div>
+    </div>
+  </form>
+</p-card>
