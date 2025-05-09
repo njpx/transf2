@@ -45,11 +45,12 @@ All components are containerized and managed through Docker Compose.
 
 ## 🧑‍💼 Sample Users
 
-| **Role**   | **Username**   | **Password** |
-| ---------- | -------------- | ------------ |
-| Teller     | teller\@teller | teller1234   |
-| Customer 1 | cust1\@cust1   | abc12345     |
-| Customer 2 | cust2\@cust2   | abc12345     |
+| **Role**    | **Username**     | **Password** | **PIN**  |
+|------------|------------------|--------------|---------|
+| Teller     | teller@teller     | teller1234   | N/A     |
+| Customer 1 | cust1@cust1       | abc12345     | 999999  |
+| Customer 2 | cust2@cust2       | abc12345     | 999999  |
+
 
 ---
 
