@@ -36,7 +36,7 @@ export class TransactionService {
     depositAmount: number
   ): Observable<void> {
     return this.http.post<void>(this.apiUrl + '/transactions/deposit', {
-      toAccount: accountNumber,
+      toAccountNumber: accountNumber,
       amount: depositAmount,
       channel: 'TELLER',
     });
