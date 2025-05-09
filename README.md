@@ -26,7 +26,7 @@ All components are containerized and managed through Docker Compose.
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/njpx/transf.git
+   git clone https://github.com/njpx/transf2.git
    cd <your-repository-directory>
    ```
 
