@@ -62,7 +62,7 @@ export class LoginComponent {
         this.router.navigate(['/dashboard']);
       },
       error: (error: ErrorResponse) => {
-        switch (error.error.errorCode) {
+        switch (error.error?.errorCode) {
           case 'INVALID_CREDENTIALS_ERROR':
             this.message = 'Invalid Username/Password!';
             break;

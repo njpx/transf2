@@ -88,7 +88,7 @@ export class NewBankAccountComponent {
         });
       },
       error: (error: ErrorResponse) => {
-        switch (error.error.errorCode) {
+        switch (error.error?.errorCode) {
           case 'TOKEN_EXPIRED_ERROR':
             this.authService.logout();
             this.router.navigate(['/login']);
@@ -121,7 +121,7 @@ export class NewBankAccountComponent {
           this.searchForm.reset();
         },
         error: (error: ErrorResponse) => {
-          switch (error.error.errorCode) {
+          switch (error.error?.errorCode) {
             case 'TOKEN_EXPIRED_ERROR':
             case 'USER_NOT_FOUND_ERROR':
               this.authService.logout();
